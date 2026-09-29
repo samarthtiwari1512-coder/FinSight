@@ -1,0 +1,61 @@
+databases:
+  - name: finsight-postgres
+    databaseName: finsight
+    user: finsight
+    plan: free
+
+services:
+  - type: redis
+    name: finsight-redis
+    ipAllowList: []
+    plan: free
+    maxmemoryPolicy: allkeys-lru
+
+  - type: web
+    name: finsight-backend
+    env: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: GIN_MODE
+        value: release
+      - key: APP_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: finsight-postgres
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: finsight-postgres
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: finsight-postgres
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: finsight-postgres
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: finsight-postgres
+          property: database
+      - key: DB_SSLMODE
+        value: require
+      - key: REDIS_ADDR
+        fromService:
+          type: redis
+          name: finsight-redis
+          property: hostport
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: BASE_CURRENCY
+        value: INR
+      - key: ALLOWED_ORIGIN
+        sync: false # IMPORTANT: You must manually set this in the Render dashboard to your Vercel URL
