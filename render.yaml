@@ -5,12 +5,6 @@ databases:
     plan: free
 
 services:
-  - type: redis
-    name: finsight-redis
-    ipAllowList: []
-    plan: free
-    maxmemoryPolicy: allkeys-lru
-
   - type: web
     name: finsight-backend
     env: docker
@@ -47,10 +41,7 @@ services:
       - key: DB_SSLMODE
         value: require
       - key: REDIS_ADDR
-        fromService:
-          type: redis
-          name: finsight-redis
-          property: connectionString
+        sync: false # IMPORTANT: You must manually set this in the Render dashboard using your free Upstash Redis URL
       - key: JWT_ACCESS_SECRET
         generateValue: true
       - key: JWT_REFRESH_SECRET
