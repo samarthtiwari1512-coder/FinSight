@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/finsight/backend/internal/auth"
 	"github.com/finsight/backend/internal/middleware"
 	"github.com/finsight/backend/internal/repositories"
@@ -45,7 +43,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 	result, err := h.authSvc.Login(c.Request.Context(), req.Email, req.Password, ip, userAgent)
 	if err != nil {
-		switch err.Error() {
+		switch err {
 		case auth.ErrInvalidCredentials:
 			response.Unauthorized(c, "INVALID_CREDENTIALS", "Invalid email or password")
 		case auth.ErrAccountLocked:
