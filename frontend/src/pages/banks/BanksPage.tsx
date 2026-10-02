@@ -12,10 +12,10 @@ export default function BanksPage() {
     <div className="page fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 4 }}>
             Bank Accounts
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>
+          <p style={{ color: 'var(--fs-text-muted)', fontSize: 14 }}>
             Manage corporate bank accounts, connections, and statement syncing.
           </p>
         </div>
@@ -33,7 +33,7 @@ export default function BanksPage() {
 
       <div className="glass-panel" style={{ padding: 20 }}>
         {isLoading ? (
-          <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>Loading bank accounts...</div>
+          <div style={{ padding: 40, textAlign: 'center', color: 'var(--fs-text-muted)' }}>Loading bank accounts...</div>
         ) : error ? (
           <div style={{ padding: 40, textAlign: 'center', color: 'var(--danger)' }}>
             <AlertCircle size={24} style={{ margin: '0 auto 12px' }} />
@@ -43,7 +43,7 @@ export default function BanksPage() {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid var(--border-light)', color: 'var(--text-secondary)', textAlign: 'left' }}>
+                <tr style={{ borderBottom: '1px solid var(--fs-border)', color: 'var(--fs-text-secondary)', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>Bank</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>Account No.</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>Type</th>
@@ -55,25 +55,25 @@ export default function BanksPage() {
               <tbody>
                 {banksRes && banksRes.length > 0 ? (
                   banksRes.map(bank => (
-                    <tr key={bank.id} style={{ borderBottom: '1px solid var(--border-light)' }}>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 32, height: 32, borderRadius: '50%', backgroundColor: 'var(--bg-tertiary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
+                    <tr key={bank.id} style={{ borderBottom: '1px solid var(--fs-border)' }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', backgroundColor: 'var(--fs-surface-hover)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--fs-text-secondary)' }}>
                           <Landmark size={14} />
                         </div>
                         {bank.bank_name}
                       </td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>
                         {bank.account_number_masked}
                       </td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-secondary)' }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text-secondary)' }}>
                         {bank.account_type}
                       </td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-secondary)' }}>
-                        <span style={{ padding: '2px 8px', borderRadius: 12, backgroundColor: 'var(--bg-tertiary)', fontSize: 12, fontWeight: 600 }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text-secondary)' }}>
+                        <span style={{ padding: '2px 8px', borderRadius: 12, backgroundColor: 'var(--fs-surface-hover)', fontSize: 12, fontWeight: 600 }}>
                           {bank.currency}
                         </span>
                       </td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-primary)', textAlign: 'right', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600 }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text)', textAlign: 'right', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600 }}>
                         {bank.available_balance.toLocaleString()}
                       </td>
                       <td style={{ padding: '12px 16px' }}>
@@ -92,7 +92,7 @@ export default function BanksPage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                    <td colSpan={6} style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--fs-text-muted)' }}>
                       No bank accounts found.
                     </td>
                   </tr>

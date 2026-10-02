@@ -37,65 +37,40 @@ interface KPIProps {
   sublabel?: string
 }
 
-function KPICard({ label, value, change, changeLabel, icon: Icon, color = '#3b82f6', risk, sublabel }: KPIProps) {
+function KPIStrip({ label, value, change, changeLabel, risk, sublabel }: KPIProps) {
   const isUp = change !== undefined && change >= 0
-  const riskColors: Record<string, string> = {
-    LOW: '#10b981', MEDIUM: '#f59e0b', HIGH: '#f97316', CRITICAL: '#ef4444',
-  }
+  const riskClass = risk ? `badge-${risk.toLowerCase()}` : 'badge-neutral'
 
   return (
-    <div className="kpi-card fade-in">
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
-        <div style={{
-          width: 38,
-          height: 38,
-          background: `${color}18`,
-          border: `1px solid ${color}30`,
-          borderRadius: 10,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <Icon size={17} color={color} />
+    <div className="kpi-strip fade-in">
+      <div>
+        <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 4 }}>
+          {label}
         </div>
+        <div style={{ fontSize: 24, fontWeight: 500, color: 'var(--fs-text)', letterSpacing: '-0.01em' }} className="tabular-nums">
+          {value}
+        </div>
+        {sublabel && (
+          <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', marginTop: 4 }}>{sublabel}</div>
+        )}
+      </div>
+      <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
         {risk && (
-          <span style={{
-            fontSize: 10,
-            fontWeight: 700,
-            padding: '2px 8px',
-            borderRadius: 100,
-            background: `${riskColors[risk] || '#64748b'}18`,
-            color: riskColors[risk] || '#64748b',
-            border: `1px solid ${riskColors[risk] || '#64748b'}30`,
-          }}>
+          <span className={`badge ${riskClass}`}>
             {risk}
           </span>
         )}
+        {change !== undefined && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span style={{ fontSize: 13, fontWeight: 500, color: isUp ? 'var(--fs-positive)' : 'var(--fs-negative)' }} className="tabular-nums">
+              {fmtPct(Math.abs(change))}
+            </span>
+            {changeLabel && (
+              <span style={{ fontSize: 11, color: 'var(--fs-text-muted)' }}>{changeLabel}</span>
+            )}
+          </div>
+        )}
       </div>
-
-      <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 4 }}>
-        {label}
-      </div>
-
-      <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.01em', marginBottom: 6 }}>
-        {value}
-      </div>
-
-      {sublabel && (
-        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>{sublabel}</div>
-      )}
-
-      {change !== undefined && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          {isUp ? <ArrowUpRight size={13} style={{ color: '#10b981' }} /> : <ArrowDownRight size={13} style={{ color: '#ef4444' }} />}
-          <span style={{ fontSize: 12, fontWeight: 600, color: isUp ? '#10b981' : '#ef4444' }}>
-            {fmtPct(Math.abs(change))}
-          </span>
-          {changeLabel && (
-            <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{changeLabel}</span>
-          )}
-        </div>
-      )}
     </div>
   )
 }
@@ -103,10 +78,10 @@ function KPICard({ label, value, change, changeLabel, icon: Icon, color = '#3b82
 // ─── Aging Bar ───────────────────────────────────────────────────────────────
 
 function AgingBar({ buckets }: { buckets: Array<{ label: string; amount: number; percent: number }> }) {
-  const COLORS = ['#10b981', '#60a5fa', '#f59e0b', '#f97316', '#ef4444']
+  const COLORS = ['var(--fs-positive)', 'var(--fs-accent)', 'var(--fs-warning)', 'var(--fs-negative)', 'var(--fs-neutral)']
   return (
     <div>
-      <div style={{ display: 'flex', height: 8, borderRadius: 4, overflow: 'hidden', gap: 2, marginBottom: 12 }}>
+      <div style={{ display: 'flex', height: 4, borderRadius: 0, overflow: 'hidden', gap: 1, marginBottom: 12 }}>
         {buckets.map((b, i) => (
           <div key={b.label} style={{
             flex: b.percent,
@@ -118,9 +93,9 @@ function AgingBar({ buckets }: { buckets: Array<{ label: string; amount: number;
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
         {buckets.map((b, i) => (
           <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <div style={{ width: 8, height: 8, borderRadius: 2, background: COLORS[i % COLORS.length], flexShrink: 0 }} />
-            <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>{b.label}</span>
-            <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>({b.percent.toFixed(0)}%)</span>
+            <div style={{ width: 6, height: 6, borderRadius: 0, background: COLORS[i % COLORS.length], flexShrink: 0 }} />
+            <span style={{ fontSize: 11, color: 'var(--fs-text-secondary)' }}>{b.label}</span>
+            <span style={{ fontSize: 11, color: 'var(--fs-text-muted)' }} className="tabular-nums">({b.percent.toFixed(0)}%)</span>
           </div>
         ))}
       </div>
@@ -132,7 +107,7 @@ function AgingBar({ buckets }: { buckets: Array<{ label: string; amount: number;
 
 function AlertRow({ alert }: { alert: any }) {
   const colors: Record<string, string> = {
-    CRITICAL: '#ef4444', HIGH: '#f97316', MEDIUM: '#f59e0b', LOW: '#10b981',
+    CRITICAL: 'var(--fs-negative)', HIGH: '#f97316', MEDIUM: 'var(--fs-warning)', LOW: 'var(--fs-positive)',
   }
   const color = colors[alert.severity] || '#64748b'
 
@@ -142,14 +117,14 @@ function AlertRow({ alert }: { alert: any }) {
       alignItems: 'flex-start',
       gap: 10,
       padding: '10px 0',
-      borderBottom: '1px solid var(--border-subtle)',
+      borderBottom: '1px solid var(--fs-border)',
     }}>
       <div style={{ width: 6, height: 6, borderRadius: '50%', background: color, marginTop: 5, flexShrink: 0 }} />
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--fs-text)', marginBottom: 2 }}>
           {alert.title}
         </div>
-        <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {alert.description}
         </div>
       </div>
@@ -172,7 +147,7 @@ function FXRow({ curr, rate, stale }: { curr: string; rate: number; stale: boole
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: '8px 0',
-      borderBottom: '1px solid var(--border-subtle)',
+      borderBottom: '1px solid var(--fs-border)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <div style={{
@@ -180,13 +155,13 @@ function FXRow({ curr, rate, stale }: { curr: string; rate: number; stale: boole
           borderRadius: 4, display: 'flex', alignItems: 'center',
           justifyContent: 'center', fontSize: 9, fontWeight: 700, color: '#60a5fa',
         }}>{curr}</div>
-        <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{curr}/INR</span>
+        <span style={{ fontSize: 12, color: 'var(--fs-text-secondary)' }}>{curr}/INR</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, fontWeight: 600, color: 'var(--fs-text)' }}>
           ₹{rate.toFixed(4)}
         </span>
-        {stale && <Clock size={11} style={{ color: '#f59e0b' }} />}
+        {stale && <Clock size={11} style={{ color: 'var(--fs-warning)' }} />}
       </div>
     </div>
   )
@@ -245,22 +220,22 @@ export default function DashboardPage() {
     value: b.amount,
   }))
 
-  const AGING_COLORS = ['#10b981', '#60a5fa', '#f59e0b', '#f97316', '#ef4444']
+  const AGING_COLORS = ['var(--fs-positive)', '#60a5fa', 'var(--fs-warning)', '#f97316', 'var(--fs-negative)']
 
   return (
     <div className="page fade-in">
       {/* Page Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 2 }}>
             Executive Dashboard
           </h1>
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 12, color: 'var(--fs-text-muted)', display: 'flex', alignItems: 'center', gap: 8 }}>
             <Activity size={12} />
             <span>
               As of {dataUpdatedAt ? format(new Date(dataUpdatedAt), 'dd MMM yyyy, HH:mm') : 'Loading...'}
             </span>
-            <span style={{ padding: '1px 8px', borderRadius: 100, background: 'rgba(16,185,129,0.1)', color: '#10b981', fontSize: 10, fontWeight: 600 }}>
+            <span style={{ padding: '1px 8px', borderRadius: 100, background: 'rgba(16,185,129,0.1)', color: 'var(--fs-positive)', fontSize: 10, fontWeight: 600 }}>
               LIVE
             </span>
           </div>
@@ -289,8 +264,8 @@ export default function DashboardPage() {
           alignItems: 'center',
           gap: 10,
         }}>
-          <AlertTriangle size={15} style={{ color: '#ef4444', flexShrink: 0 }} />
-          <span style={{ fontSize: 13, color: '#ef4444', fontWeight: 500 }}>
+          <AlertTriangle size={15} style={{ color: 'var(--fs-negative)', flexShrink: 0 }} />
+          <span style={{ fontSize: 13, color: 'var(--fs-negative)', fontWeight: 500 }}>
             Elevated risk detected: {summary?.liquidity_risk === 'HIGH' ? 'Liquidity risk is HIGH. ' : ''}
             {summary?.fx_risk === 'HIGH' ? 'FX exposure risk is HIGH.' : ''}
             Review alerts for recommended actions.
@@ -299,53 +274,48 @@ export default function DashboardPage() {
       ) : null}
 
       {/* KPI Row */}
-      <div className="kpi-grid" style={{ marginBottom: 20 }}>
-        <KPICard
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 32, marginBottom: 40, borderBottom: '1px solid var(--fs-border)', paddingBottom: 16 }}>
+        <KPIStrip
           label="Total Cash Position"
           value={fmtCr(cash?.closing_balance || 0)}
           change={2.3}
           changeLabel="vs last week"
           icon={Wallet}
-          color="#3b82f6"
           sublabel={`${cash?.by_bank?.length || 0} bank accounts`}
         />
-        <KPICard
+        <KPIStrip
           label="Net Receivables (AR)"
           value={fmtCr(ar?.total_outstanding || 0)}
           change={-3.1}
           changeLabel="vs last month"
           icon={TrendingUp}
-          color="#10b981"
           sublabel={`${ar?.overdue_count || 0} invoices overdue`}
           risk={ar && ar.overdue_count > 50 ? 'HIGH' : 'MEDIUM'}
         />
-        <KPICard
+        <KPIStrip
           label="Total Payables (AP)"
           value={fmtCr(ap?.total_outstanding || 0)}
           change={1.8}
           changeLabel="vs last month"
           icon={TrendingDown}
-          color="#f59e0b"
           sublabel={`₹${((ap?.due_in_3_days || 0) / 10000000).toFixed(1)} Cr due in 3 days`}
           risk="MEDIUM"
         />
-        <KPICard
+        <KPIStrip
           label="FX Net Exposure"
           value={`$${((fx?.total_net_exposure || 0) / 1000000).toFixed(1)}M`}
           change={-1.5}
           changeLabel="vs yesterday"
           icon={Globe}
-          color="#a78bfa"
           sublabel={`${((fx?.coverage_ratio || 0) * 100).toFixed(0)}% hedged`}
           risk={summary?.fx_risk as string}
         />
-        <KPICard
+        <KPIStrip
           label="Cash Conversion Cycle"
           value={`${(wc?.ccc || 0).toFixed(0)} days`}
           change={wc ? wc.ccc - 48 : 0}
           changeLabel="vs 48d target"
           icon={RefreshCw}
-          color="#f97316"
           sublabel={`DSO ${(wc?.dso || 0).toFixed(0)}d · DPO ${(wc?.dpo || 0).toFixed(0)}d`}
         />
       </div>
@@ -356,10 +326,10 @@ export default function DashboardPage() {
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 2 }}>
                 30-Day Cash Flow Forecast
               </div>
-              <div style={{ fontSize: 11, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 4 }}>
+              <div style={{ fontSize: 11, color: 'var(--fs-warning)', display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Zap size={11} />
                 Statistical estimate — confidence: {((forecast?.confidence || 0) * 100).toFixed(0)}%
               </div>
@@ -374,8 +344,8 @@ export default function DashboardPage() {
                 background: 'rgba(239,68,68,0.1)',
                 border: '1px solid rgba(239,68,68,0.2)',
               }}>
-                <AlertTriangle size={12} style={{ color: '#ef4444' }} />
-                <span style={{ fontSize: 11, fontWeight: 600, color: '#ef4444' }}>Liquidity Warning</span>
+                <AlertTriangle size={12} style={{ color: 'var(--fs-negative)' }} />
+                <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--fs-negative)' }}>Liquidity Warning</span>
               </div>
             )}
           </div>
@@ -383,23 +353,23 @@ export default function DashboardPage() {
             <AreaChart data={forecastChartData}>
               <defs>
                 <linearGradient id="inflowGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--fs-positive)" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="var(--fs-positive)" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="outflowGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--fs-negative)" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="var(--fs-negative)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis
                 dataKey="date"
-                tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
+                tick={{ fontSize: 10, fill: 'var(--fs-text-muted)' }}
                 tickLine={false}
                 axisLine={false}
                 interval={4}
               />
               <YAxis
-                tick={{ fontSize: 10, fill: 'var(--text-muted)' }}
+                tick={{ fontSize: 10, fill: 'var(--fs-text-muted)' }}
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={(v) => `₹${v}L`}
@@ -407,8 +377,8 @@ export default function DashboardPage() {
               />
               <Tooltip
                 contentStyle={{
-                  background: 'var(--bg-elevated)',
-                  border: '1px solid var(--border-color)',
+                  background: 'var(--fs-surface)',
+                  border: '1px solid var(--fs-border)',
                   borderRadius: 8,
                   fontSize: 12,
                 }}
@@ -416,12 +386,12 @@ export default function DashboardPage() {
                   `₹${value}L`, name === 'inflow' ? 'Inflow' : 'Outflow'
                 ]}
               />
-              <Area type="monotone" dataKey="inflow" stroke="#10b981" strokeWidth={1.5} fill="url(#inflowGrad)" />
-              <Area type="monotone" dataKey="outflow" stroke="#ef4444" strokeWidth={1.5} fill="url(#outflowGrad)" />
+              <Area type="monotone" dataKey="inflow" stroke="var(--fs-positive)" strokeWidth={1.5} fill="url(#inflowGrad)" />
+              <Area type="monotone" dataKey="outflow" stroke="var(--fs-negative)" strokeWidth={1.5} fill="url(#outflowGrad)" />
             </AreaChart>
           </ResponsiveContainer>
           {forecast?.disclaimer && (
-            <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 10, borderTop: '1px solid var(--border-subtle)', paddingTop: 10 }}>
+            <div style={{ fontSize: 10, color: 'var(--fs-text-muted)', marginTop: 10, borderTop: '1px solid var(--fs-border)', paddingTop: 10 }}>
               ⚠ {forecast.disclaimer}
             </div>
           )}
@@ -429,8 +399,8 @@ export default function DashboardPage() {
 
         {/* AR Aging Donut */}
         <div className="card">
-          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>AR Aging Breakdown</div>
-          <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 16 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 4 }}>AR Aging Breakdown</div>
+          <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', marginBottom: 16 }}>
             Total: {fmtCr(ar?.total_outstanding || 0)}
           </div>
           {arAgingData.length > 0 ? (
@@ -452,8 +422,8 @@ export default function DashboardPage() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      background: 'var(--bg-elevated)',
-                      border: '1px solid var(--border-color)',
+                      background: 'var(--fs-surface)',
+                      border: '1px solid var(--fs-border)',
                       borderRadius: 8,
                       fontSize: 11,
                     }}
@@ -473,20 +443,20 @@ export default function DashboardPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20 }}>
         {/* Working Capital KPIs */}
         <div className="card">
-          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 16 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 16 }}>
             Working Capital Metrics
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {[
-              { label: 'Days Sales Outstanding (DSO)', value: `${(wc?.dso || 0).toFixed(1)}d`, target: 30, max: 90, color: '#10b981' },
-              { label: 'Days Payable Outstanding (DPO)', value: `${(wc?.dpo || 0).toFixed(1)}d`, target: 45, max: 90, color: '#3b82f6' },
-              { label: 'Cash Conversion Cycle', value: `${(wc?.ccc || 0).toFixed(1)}d`, target: 30, max: 120, color: '#f59e0b' },
+              { label: 'Days Sales Outstanding (DSO)', value: `${(wc?.dso || 0).toFixed(1)}d`, target: 30, max: 90, color: 'var(--fs-positive)' },
+              { label: 'Days Payable Outstanding (DPO)', value: `${(wc?.dpo || 0).toFixed(1)}d`, target: 45, max: 90, color: 'var(--fs-accent)' },
+              { label: 'Cash Conversion Cycle', value: `${(wc?.ccc || 0).toFixed(1)}d`, target: 30, max: 120, color: 'var(--fs-warning)' },
               { label: 'Current Ratio', value: `${(wc?.current_ratio || 0).toFixed(2)}x`, target: null, max: null, color: '#a78bfa' },
             ].map((m) => (
               <div key={m.label}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{m.label}</span>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'JetBrains Mono, monospace' }}>
+                  <span style={{ fontSize: 11, color: 'var(--fs-text-muted)' }}>{m.label}</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--fs-text)', fontFamily: 'JetBrains Mono, monospace' }}>
                     {m.value}
                   </span>
                 </div>
@@ -508,12 +478,12 @@ export default function DashboardPage() {
 
         {/* FX Exposure by Currency */}
         <div className="card">
-          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>FX Exposure</div>
-          <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 16 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 4 }}>FX Exposure</div>
+          <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', marginBottom: 16 }}>
             Net exposure by currency
           </div>
           {(fx?.by_currency || []).map((exp) => {
-            const riskColors: Record<string, string> = { LOW: '#10b981', MEDIUM: '#f59e0b', HIGH: '#f97316', CRITICAL: '#ef4444' }
+            const riskColors: Record<string, string> = { LOW: 'var(--fs-positive)', MEDIUM: 'var(--fs-warning)', HIGH: '#f97316', CRITICAL: 'var(--fs-negative)' }
             const color = riskColors[exp.risk_level] || '#64748b'
             return (
               <div key={exp.currency} style={{
@@ -521,7 +491,7 @@ export default function DashboardPage() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '8px 0',
-                borderBottom: '1px solid var(--border-subtle)',
+                borderBottom: '1px solid var(--fs-border)',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{
@@ -535,12 +505,12 @@ export default function DashboardPage() {
                     fontSize: 9, fontWeight: 700, color,
                   }}>{exp.currency}</div>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-primary)' }}>{exp.currency}/INR</div>
-                    <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{exp.direction || 'NET'}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--fs-text)' }}>{exp.currency}/INR</div>
+                    <div style={{ fontSize: 10, color: 'var(--fs-text-muted)' }}>{exp.direction || 'NET'}</div>
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'JetBrains Mono, monospace' }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--fs-text)', fontFamily: 'JetBrains Mono, monospace' }}>
                     {fmtCr(exp.base_value || 0)}
                   </div>
                   <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 100, background: `${color}18`, color, border: `1px solid ${color}25` }}>
@@ -558,9 +528,9 @@ export default function DashboardPage() {
         {/* Active Alerts */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>Active Alerts</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--fs-text)' }}>Active Alerts</div>
             <span style={{
-              fontSize: 11, color: '#ef4444', fontWeight: 600,
+              fontSize: 11, color: 'var(--fs-negative)', fontWeight: 600,
               padding: '2px 8px', borderRadius: 100,
               background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)',
             }}>

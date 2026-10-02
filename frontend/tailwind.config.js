@@ -8,21 +8,41 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['"IBM Plex Sans"', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'monospace'],
+        display: ['"DM Serif Display"', 'serif'],
       },
       colors: {
-        brand: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          900: '#1e3a8a',
-        },
+        fs: {
+          bg: 'var(--fs-bg)',
+          sidebar: 'var(--fs-sidebar)',
+          surface: 'var(--fs-surface)',
+          'surface-elevated': 'var(--fs-surface-elevated)',
+          'surface-secondary': 'var(--fs-surface-secondary)',
+          text: 'var(--fs-text)',
+          'text-secondary': 'var(--fs-text-secondary)',
+          'text-muted': 'var(--fs-text-muted)',
+          border: 'var(--fs-border)',
+          'border-strong': 'var(--fs-border-strong)',
+          accent: 'var(--fs-accent)',
+          positive: 'var(--fs-positive)',
+          'positive-bg': 'var(--fs-positive-bg)',
+          warning: 'var(--fs-warning)',
+          'warning-bg': 'var(--fs-warning-bg)',
+          negative: 'var(--fs-negative)',
+          'negative-bg': 'var(--fs-negative-bg)',
+          neutral: 'var(--fs-neutral)',
+        }
       },
+      boxShadow: {
+        'fs-subtle': '0 1px 2px rgba(25, 26, 23, 0.05)',
+      },
+      transitionDuration: {
+        'fs': '200ms',
+      },
+      borderRadius: {
+        'fs': '8px',
+      }
     },
   },
   plugins: [],

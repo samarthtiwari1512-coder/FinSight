@@ -86,7 +86,7 @@ export default function LoginPage() {
         flexDirection: 'column',
         padding: '60px',
         justifyContent: 'space-between',
-        borderRight: '1px solid var(--border-color)',
+        borderRight: '1px solid var(--fs-border)',
         background: 'linear-gradient(135deg, rgba(15,22,41,0.8) 0%, rgba(10,15,30,0.9) 100%)',
         backdropFilter: 'blur(10px)',
         position: 'relative',
@@ -199,10 +199,10 @@ export default function LoginPage() {
       }}>
         <div className="fade-in">
           <div style={{ marginBottom: 36 }}>
-            <h2 style={{ fontSize: 26, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>
+            <h2 style={{ fontSize: 26, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 8 }}>
               Sign in to FinSight
             </h2>
-            <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
+            <p style={{ fontSize: 14, color: 'var(--fs-text-secondary)' }}>
               Use your credentials or select a demo role below
             </p>
           </div>
@@ -246,7 +246,7 @@ export default function LoginPage() {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    color: 'var(--text-muted)',
+                    color: 'var(--fs-text-muted)',
                     display: 'flex',
                   }}
                 >
@@ -281,11 +281,11 @@ export default function LoginPage() {
               gap: 12,
               marginBottom: 16,
             }}>
-              <div style={{ flex: 1, height: 1, background: 'var(--border-color)' }} />
-              <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, whiteSpace: 'nowrap' }}>
+              <div style={{ flex: 1, height: 1, background: 'var(--fs-border)' }} />
+              <span style={{ fontSize: 11, color: 'var(--fs-text-muted)', fontWeight: 600, whiteSpace: 'nowrap' }}>
                 QUICK DEMO ACCESS
               </span>
-              <div style={{ flex: 1, height: 1, background: 'var(--border-color)' }} />
+              <div style={{ flex: 1, height: 1, background: 'var(--fs-border)' }} />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -303,7 +303,7 @@ export default function LoginPage() {
 
             <p style={{
               fontSize: 11,
-              color: 'var(--text-muted)',
+              color: 'var(--fs-text-muted)',
               marginTop: 12,
               textAlign: 'center',
               lineHeight: 1.5,

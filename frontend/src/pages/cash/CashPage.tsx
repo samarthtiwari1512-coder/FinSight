@@ -17,10 +17,10 @@ export default function CashPage() {
     <div className="page fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 4 }}>
             Cash Management
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>
+          <p style={{ color: 'var(--fs-text-muted)', fontSize: 14 }}>
             Monitor global liquidity, bank accounts, and recent cash movements.
           </p>
         </div>
@@ -37,9 +37,9 @@ export default function CashPage() {
             <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: 'rgba(59, 130, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6' }}>
               <Wallet size={20} />
             </div>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)' }}>Total Cash (INR)</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--fs-text-secondary)' }}>Total Cash (INR)</h3>
           </div>
-          <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'JetBrains Mono, monospace' }}>
+          <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--fs-text)', fontFamily: 'JetBrains Mono, monospace' }}>
             {isLoadingPos ? '...' : `₹${positionData?.closing_balance?.toLocaleString() || '0'}`}
           </div>
         </div>
@@ -49,9 +49,9 @@ export default function CashPage() {
             <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: 'rgba(16, 185, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981' }}>
               <ArrowUpRight size={20} />
             </div>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)' }}>Total Inflows</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--fs-text-secondary)' }}>Total Inflows</h3>
           </div>
-          <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'JetBrains Mono, monospace' }}>
+          <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--fs-text)', fontFamily: 'JetBrains Mono, monospace' }}>
             {isLoadingPos ? '...' : `₹${positionData?.total_inflows?.toLocaleString() || '0'}`}
           </div>
         </div>
@@ -61,9 +61,9 @@ export default function CashPage() {
             <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: 'rgba(239, 68, 68, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ef4444' }}>
               <ArrowDownRight size={20} />
             </div>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)' }}>Total Outflows</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--fs-text-secondary)' }}>Total Outflows</h3>
           </div>
-          <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'JetBrains Mono, monospace' }}>
+          <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--fs-text)', fontFamily: 'JetBrains Mono, monospace' }}>
             {isLoadingPos ? '...' : `₹${positionData?.total_outflows?.toLocaleString() || '0'}`}
           </div>
         </div>
@@ -71,18 +71,18 @@ export default function CashPage() {
 
       {/* Bank Balances Table */}
       <div className="glass-panel" style={{ padding: 20 }}>
-        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--fs-text)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
           <Landmark size={18} />
           Balances by Bank
         </h2>
         
         {isLoadingBanks ? (
-          <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>Loading bank balances...</div>
+          <div style={{ padding: 40, textAlign: 'center', color: 'var(--fs-text-muted)' }}>Loading bank balances...</div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid var(--border-light)', color: 'var(--text-secondary)', textAlign: 'left' }}>
+                <tr style={{ borderBottom: '1px solid var(--fs-border)', color: 'var(--fs-text-secondary)', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>Bank Name</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>Account No</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>Currency</th>
@@ -93,25 +93,25 @@ export default function CashPage() {
               <tbody>
                 {bankData && bankData.length > 0 ? (
                   bankData.map(bank => (
-                    <tr key={bank.bank_name + bank.currency} style={{ borderBottom: '1px solid var(--border-light)' }}>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-primary)', fontWeight: 500 }}>{bank.bank_name}</td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>{bank.account_number_masked}</td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-secondary)' }}>
-                        <span style={{ padding: '2px 8px', borderRadius: 12, backgroundColor: 'var(--bg-tertiary)', fontSize: 12, fontWeight: 600 }}>
+                    <tr key={bank.bank_name + bank.currency} style={{ borderBottom: '1px solid var(--fs-border)' }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text)', fontWeight: 500 }}>{bank.bank_name}</td>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text-secondary)', fontFamily: 'JetBrains Mono, monospace' }}>{bank.account_number_masked}</td>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text-secondary)' }}>
+                        <span style={{ padding: '2px 8px', borderRadius: 12, backgroundColor: 'var(--fs-surface-hover)', fontSize: 12, fontWeight: 600 }}>
                           {bank.currency}
                         </span>
                       </td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-primary)', textAlign: 'right', fontFamily: 'JetBrains Mono, monospace' }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text)', textAlign: 'right', fontFamily: 'JetBrains Mono, monospace' }}>
                         {bank.available_balance.toLocaleString()}
                       </td>
-                      <td style={{ padding: '12px 16px', color: 'var(--text-primary)', textAlign: 'right', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600 }}>
+                      <td style={{ padding: '12px 16px', color: 'var(--fs-text)', textAlign: 'right', fontFamily: 'JetBrains Mono, monospace', fontWeight: 600 }}>
                         ₹{bank.base_balance.toLocaleString()}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                    <td colSpan={5} style={{ padding: '24px 16px', textAlign: 'center', color: 'var(--fs-text-muted)' }}>
                       No bank balances available.
                     </td>
                   </tr>

@@ -124,7 +124,7 @@ export default function AppLayout() {
           {/* Logo */}
           <div style={{
             padding: '20px 20px 16px',
-            borderBottom: '1px solid var(--border-color)',
+            borderBottom: '1px solid var(--fs-border)',
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
@@ -132,7 +132,7 @@ export default function AppLayout() {
             <div style={{
               width: 32,
               height: 32,
-              background: 'linear-gradient(135deg, #2563eb, #60a5fa)',
+              background: 'var(--fs-accent)',
               borderRadius: 8,
               display: 'flex',
               alignItems: 'center',
@@ -143,10 +143,10 @@ export default function AppLayout() {
               flexShrink: 0,
             }}>FS</div>
             <div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.2 }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--fs-text)', lineHeight: 1.2 }}>
                 FinSight
               </div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
+              <div style={{ fontSize: 10, color: 'var(--fs-text-muted)', letterSpacing: '0.05em' }}>
                 TREASURY PLATFORM
               </div>
             </div>
@@ -167,7 +167,7 @@ export default function AppLayout() {
                     <span style={{ flex: 1 }}>{item.label}</span>
                     {item.path === '/alerts' && criticalAlerts > 0 && (
                       <span style={{
-                        background: '#ef4444',
+                        background: 'var(--fs-negative)',
                         color: 'white',
                         fontSize: 10,
                         fontWeight: 700,
@@ -187,7 +187,7 @@ export default function AppLayout() {
 
           {/* User Footer */}
           <div style={{
-            borderTop: '1px solid var(--border-color)',
+            borderTop: '1px solid var(--fs-border)',
             padding: '12px',
           }}>
             <div style={{
@@ -202,7 +202,7 @@ export default function AppLayout() {
                 width: 30,
                 height: 30,
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+                background: 'var(--fs-text)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -214,10 +214,10 @@ export default function AppLayout() {
                 {user?.first_name?.[0]}{user?.last_name?.[0]}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--fs-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {user?.first_name} {user?.last_name}
                 </div>
-                <div style={{ fontSize: 10, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <div style={{ fontSize: 10, color: 'var(--fs-text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {user?.roles?.[0]?.name || 'User'}
                 </div>
               </div>
@@ -227,7 +227,7 @@ export default function AppLayout() {
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
-                  color: 'var(--text-muted)',
+                  color: 'var(--fs-text-muted)',
                   padding: 4,
                   borderRadius: 6,
                   display: 'flex',
@@ -251,11 +251,11 @@ export default function AppLayout() {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             style={{
               background: 'none',
-              border: '1px solid var(--border-color)',
+              border: '1px solid var(--fs-border)',
               borderRadius: 8,
               padding: 8,
               cursor: 'pointer',
-              color: 'var(--text-secondary)',
+              color: 'var(--fs-text-secondary)',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -276,7 +276,7 @@ export default function AppLayout() {
                 left: 10,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: 'var(--text-muted)',
+                color: 'var(--fs-text-muted)',
               }}
             />
             <input
@@ -290,13 +290,13 @@ export default function AppLayout() {
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
             {/* Company badge */}
             <div style={{
-              background: 'rgba(37, 99, 235, 0.1)',
-              border: '1px solid rgba(37, 99, 235, 0.2)',
+              background: 'transparent',
+              border: '1px solid var(--fs-border)',
               borderRadius: 8,
               padding: '4px 10px',
               fontSize: 11,
               fontWeight: 600,
-              color: 'var(--color-brand-400)',
+              color: 'var(--fs-accent)',
             }}>
               ACME GLOBAL
             </div>
@@ -304,7 +304,7 @@ export default function AppLayout() {
             {/* FX Rate indicator */}
             <div style={{
               fontSize: 11,
-              color: 'var(--text-muted)',
+              color: 'var(--fs-text-muted)',
               display: 'flex',
               alignItems: 'center',
               gap: 4,
@@ -314,7 +314,7 @@ export default function AppLayout() {
             </div>
 
             {/* Alert bell */}
-            <NavLink to="/alerts" style={{ position: 'relative', color: 'var(--text-muted)', display: 'flex' }}>
+            <NavLink to="/alerts" style={{ position: 'relative', color: 'var(--fs-text-muted)', display: 'flex' }}>
               <Bell size={18} />
               {criticalAlerts > 0 && (
                 <span className="pulse-red" style={{
@@ -324,13 +324,13 @@ export default function AppLayout() {
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  background: '#ef4444',
+                  background: 'var(--fs-negative)',
                 }} />
               )}
             </NavLink>
 
             {/* Settings */}
-            <NavLink to="/admin" style={{ color: 'var(--text-muted)', display: 'flex' }}>
+            <NavLink to="/admin" style={{ color: 'var(--fs-text-muted)', display: 'flex' }}>
               <Settings size={18} />
             </NavLink>
           </div>

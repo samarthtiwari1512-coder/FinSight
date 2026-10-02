@@ -1,10 +1,10 @@
 export default function SystemPage() {
   return (
     <div className="page fade-in">
-      <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>
+      <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 8 }}>
         System
       </h1>
-      <p style={{ color: 'var(--text-muted)' }}>This module is under implementation.</p>
+      <p style={{ color: 'var(--fs-text-muted)' }}>This module is under implementation.</p>
     </div>
   )
 }
