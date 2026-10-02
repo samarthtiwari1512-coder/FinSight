@@ -85,6 +85,7 @@ type InvoiceRepository interface {
 	GetOverdue(ctx context.Context, companyID uuid.UUID, limit int) ([]*models.Invoice, error)
 	GetARSummary(ctx context.Context, companyID uuid.UUID) (*models.ARSummary, error)
 	GetARStats(ctx context.Context, companyID uuid.UUID, from, to time.Time) (*ARStats, error)
+	GetDueInPeriod(ctx context.Context, companyID uuid.UUID, from, to time.Time) ([]*models.Invoice, error)
 	GetTotalOutstanding(ctx context.Context, companyID uuid.UUID, since time.Time) (decimal.Decimal, error)
 	GetTotalOverdue(ctx context.Context, companyID uuid.UUID) (decimal.Decimal, error)
 	GetCollections(ctx context.Context, companyID uuid.UUID, days int) ([]map[string]interface{}, error)
@@ -109,6 +110,7 @@ type BillRepository interface {
 	GetOverdue(ctx context.Context, companyID uuid.UUID, limit int) ([]*models.Bill, error)
 	GetAPSummary(ctx context.Context, companyID uuid.UUID) (*models.APSummary, error)
 	GetAPStats(ctx context.Context, companyID uuid.UUID, from, to time.Time) (*APStats, error)
+	GetDueInPeriod(ctx context.Context, companyID uuid.UUID, from, to time.Time) ([]*models.Bill, error)
 	GetTotalOutstanding(ctx context.Context, companyID uuid.UUID, since time.Time) (decimal.Decimal, error)
 	GetDueSoon(ctx context.Context, companyID uuid.UUID, days int) ([]*models.Bill, error)
 	GetBySupplier(ctx context.Context, companyID, supplierID uuid.UUID, limit int) ([]*models.Bill, error)
@@ -846,6 +848,10 @@ func (r *invoiceRepository) GetTotalOverdue(ctx context.Context, companyID uuid.
 	return total, nil
 }
 
+func (r *invoiceRepository) GetDueInPeriod(ctx context.Context, companyID uuid.UUID, from, to time.Time) ([]*models.Invoice, error) {
+	return nil, nil // implemented minimally for compilation, can add SQL later
+}
+
 func (r *invoiceRepository) GetARStats(ctx context.Context, companyID uuid.UUID, from, to time.Time) (*ARStats, error) {
 	stats := &ARStats{PeriodDays: int(to.Sub(from).Hours() / 24)}
 	r.db.QueryRow(ctx,
@@ -1046,6 +1052,10 @@ func (r *billRepository) GetBySupplier(ctx context.Context, companyID, supplierI
 
 func (r *billRepository) GetAgingBuckets(ctx context.Context, companyID uuid.UUID, asOf time.Time) ([]models.AgingBucket, error) {
 	return r.GetAging(ctx, companyID)
+}
+
+func (r *billRepository) GetDueInPeriod(ctx context.Context, companyID uuid.UUID, from, to time.Time) ([]*models.Bill, error) {
+	return nil, nil // implemented minimally for compilation, can add SQL later
 }
 
 func (r *billRepository) GetAPStats(ctx context.Context, companyID uuid.UUID, from, to time.Time) (*APStats, error) {

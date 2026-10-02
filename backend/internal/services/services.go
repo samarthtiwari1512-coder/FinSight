@@ -413,7 +413,7 @@ func (s *ReportService) GenerateCashPosition(ctx context.Context, companyID inte
 }
 
 func (s *ReportService) GenerateWorkingCapital(ctx context.Context, companyID interface{}) (map[string]interface{}, error) {
-	kpis, err := s.wcSvc.GetKPIs(ctx, toUUID(companyID))
+	kpis, err := s.wcSvc.GetKPIs(ctx, toUUID(companyID), time.Now(), 90)
 	if err != nil {
 		return nil, err
 	}

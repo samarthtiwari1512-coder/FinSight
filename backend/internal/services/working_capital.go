@@ -54,10 +54,10 @@ func (s *WorkingCapitalService) GetKPIs(ctx context.Context, companyID uuid.UUID
 	}
 
 	kpis := &models.WorkingCapitalKPIs{
-		TotalReceivables:   arStats.OutstandingAmount,
-		TotalPayables:      apStats.OutstandingAmount,
-		TotalRevenue:       arStats.TotalInvoiced,
-		TotalCOGS:          apStats.TotalBilled,
+		TotalReceivables:   arStats.TotalReceivables,
+		TotalPayables:      apStats.TotalPayables,
+		TotalRevenue:       arStats.TotalRevenue,
+		TotalCOGS:          apStats.TotalCOGS,
 		Period:             "90d",
 		PeriodDays:         periodDays,
 		AsOfDate:           asOf,
@@ -67,18 +67,18 @@ func (s *WorkingCapitalService) GetKPIs(ctx context.Context, companyID uuid.UUID
 
 	// DSO = (Average Accounts Receivable / Revenue) × Days
 	// Using ending AR balance / (revenue / days) to avoid zero division
-	if arStats.TotalInvoiced.IsPositive() {
-		dailyRevenue := arStats.TotalInvoiced.Div(days)
+	if arStats.TotalRevenue.IsPositive() {
+		dailyRevenue := arStats.TotalRevenue.Div(days)
 		if dailyRevenue.IsPositive() {
-			kpis.DSO = arStats.OutstandingAmount.Div(dailyRevenue)
+			kpis.DSO = arStats.TotalReceivables.Div(dailyRevenue)
 		}
 	}
 
 	// DPO = (Accounts Payable / COGS) × Days
-	if apStats.TotalBilled.IsPositive() {
-		dailyCOGS := apStats.TotalBilled.Div(days)
+	if apStats.TotalCOGS.IsPositive() {
+		dailyCOGS := apStats.TotalCOGS.Div(days)
 		if dailyCOGS.IsPositive() {
-			kpis.DPO = apStats.OutstandingAmount.Div(dailyCOGS)
+			kpis.DPO = apStats.TotalPayables.Div(dailyCOGS)
 		}
 	}
 
