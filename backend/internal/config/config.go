@@ -113,6 +113,10 @@ func Load() (*Config, error) {
 }
 
 func (c *DatabaseConfig) DSN() string {
+	// Prefer DATABASE_URL if set (Neon, Render, Railway, etc.)
+	if url := os.Getenv("DATABASE_URL"); url != "" {
+		return url
+	}
 	return fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s pool_max_conns=%d pool_min_conns=%d",
 		c.Host, c.Port, c.User, c.Password, c.DBName, c.SSLMode, c.MaxConns, c.MinConns,
@@ -120,11 +124,22 @@ func (c *DatabaseConfig) DSN() string {
 }
 
 func (c *DatabaseConfig) LibPQDSN() string {
+	if url := os.Getenv("DATABASE_URL"); url != "" {
+		return url
+	}
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
 		c.User, c.Password, c.Host, c.Port, c.DBName, c.SSLMode,
 	)
 }
+
+// Config accessor methods required by FXService and workers
+
+func (c *Config) GetFXAPIKey() string             { return c.FX.APIKey }
+func (c *Config) GetFXProvider() string           { return c.FX.Provider }
+func (c *Config) GetFXStalenessMinutes() int      { return c.FX.StalenessMinutes }
+func (c *Config) GetBaseCurrency() string         { return c.App.BaseCurrency }
+func (c *Config) GetFXUpdateIntervalMinutes() int { return c.FX.UpdateIntervalMinutes }
 
 func getEnv(key, defaultVal string) string {
 	if val := os.Getenv(key); val != "" {

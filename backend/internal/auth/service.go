@@ -184,12 +184,28 @@ func (s *Service) RefreshTokens(ctx context.Context, rawRefreshToken, ipAddress,
 	}, nil
 }
 
-func (s *Service) Logout(ctx context.Context, rawRefreshToken string, userID uuid.UUID) error {
+func (s *Service) Logout(ctx context.Context, rawRefreshToken string, userID uuid.UUID, ip ...string) error {
 	if rawRefreshToken != "" {
 		tokenHash := hashToken(rawRefreshToken)
 		s.tokenRepo.RevokeRefreshToken(ctx, tokenHash)
 	}
 	return nil
+}
+
+// RefreshToken is an alias for RefreshTokens to support both calling conventions
+func (s *Service) RefreshToken(ctx context.Context, rawRefreshToken, ipAddress string) (*LoginResponse, error) {
+	return s.RefreshTokens(ctx, rawRefreshToken, ipAddress, "")
+}
+
+// GetUserByID returns a user by their ID
+func (s *Service) GetUserByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
+	user, err := s.userRepo.FindByID(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+	roles, _ := s.userRepo.GetUserRoles(ctx, userID)
+	user.Roles = roles
+	return user, nil
 }
 
 func (s *Service) ValidateAccessToken(tokenString string) (*Claims, error) {
