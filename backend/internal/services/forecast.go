@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/finsight/backend/internal/models"
 	"github.com/finsight/backend/internal/repositories"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
