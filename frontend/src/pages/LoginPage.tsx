@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
-import { Eye, EyeOff, Shield, TrendingUp, Globe, BarChart3, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const DEMO_CREDENTIALS = [
@@ -9,13 +9,6 @@ const DEMO_CREDENTIALS = [
   { role: 'Treasury', email: 'treasury@acmeglobal.com', password: 'Demo@2024' },
   { role: 'Finance', email: 'finance@acmeglobal.com', password: 'Demo@2024' },
   { role: 'Auditor', email: 'auditor@acmeglobal.com', password: 'Demo@2024' },
-]
-
-const FEATURES = [
-  { icon: TrendingUp, label: 'Real-time Cash Position', description: '24 bank accounts across 6 entities' },
-  { icon: Globe, label: 'FX Exposure & Hedging', description: '$45M+ exposure across 8 currencies' },
-  { icon: BarChart3, label: 'Working Capital KPIs', description: 'DSO, DPO, CCC with trend analysis' },
-  { icon: Shield, label: 'Risk & Compliance', description: 'Automated alerts with audit trails' },
 ]
 
 export default function LoginPage() {
@@ -55,31 +48,9 @@ export default function LoginPage() {
     <div style={{
       minHeight: '100vh',
       display: 'flex',
-      background: 'var(--bg-primary)',
-      position: 'relative',
-      overflow: 'hidden',
+      background: 'var(--fs-bg)',
     }}>
-      {/* Background glow effects */}
-      <div style={{
-        position: 'absolute',
-        top: '-20%',
-        left: '-10%',
-        width: 600,
-        height: 600,
-        background: 'radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '-20%',
-        right: '-10%',
-        width: 500,
-        height: 500,
-        background: 'radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
-
-      {/* Left Panel — Branding */}
+      {/* Left Panel — Branding (Editorial / Financial Ledger Style) */}
       <div style={{
         flex: 1,
         display: 'flex',
@@ -87,32 +58,29 @@ export default function LoginPage() {
         padding: '60px',
         justifyContent: 'space-between',
         borderRight: '1px solid var(--fs-border)',
-        background: 'linear-gradient(135deg, rgba(15,22,41,0.8) 0%, rgba(10,15,30,0.9) 100%)',
-        backdropFilter: 'blur(10px)',
-        position: 'relative',
-        zIndex: 1,
+        background: 'var(--fs-sidebar)',
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
             width: 44,
             height: 44,
-            background: 'linear-gradient(135deg, #1d4ed8, #60a5fa)',
-            borderRadius: 12,
+            background: 'var(--fs-text)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: 18,
             fontWeight: 800,
-            color: 'white',
-            boxShadow: '0 4px 20px rgba(37, 99, 235, 0.3)',
-          }}>FS</div>
+            color: 'var(--fs-bg)',
+          }}>
+            FS
+          </div>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: 'white', letterSpacing: '-0.01em' }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--fs-text)', letterSpacing: '-0.01em' }}>
               FinSight
             </div>
-            <div style={{ fontSize: 11, color: 'rgba(148,163,184,0.8)', letterSpacing: '0.08em' }}>
-              TREASURY INTELLIGENCE PLATFORM
+            <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', letterSpacing: '0.08em' }}>
+              TREASURY INTELLIGENCE
             </div>
           </div>
         </div>
@@ -124,92 +92,62 @@ export default function LoginPage() {
             alignItems: 'center',
             gap: 8,
             padding: '6px 14px',
-            borderRadius: 100,
-            background: 'rgba(37, 99, 235, 0.1)',
-            border: '1px solid rgba(37, 99, 235, 0.2)',
+            border: '1px solid var(--fs-border-strong)',
             marginBottom: 24,
+            fontSize: 11, 
+            fontWeight: 600, 
+            color: 'var(--fs-text-secondary)', 
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase'
           }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981' }} />
-            <span style={{ fontSize: 11, fontWeight: 600, color: '#60a5fa', letterSpacing: '0.05em' }}>
-              ACME GLOBAL MANUFACTURING LTD • DEMO
-            </span>
+            ACME GLOBAL • DEMO ENVIRONMENT
           </div>
 
-          <h1 style={{
-            fontSize: 38,
-            fontWeight: 800,
-            color: 'white',
-            lineHeight: 1.15,
-            letterSpacing: '-0.02em',
+          <h1 className="font-display" style={{
+            fontSize: 48,
+            color: 'var(--fs-text)',
+            lineHeight: 1.1,
             marginBottom: 20,
           }}>
-            Corporate Treasury<br />
-            <span style={{
-              background: 'linear-gradient(90deg, #60a5fa, #a78bfa)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>at Your Fingertips</span>
+            Corporate Treasury. <br />
+            <span style={{ color: 'var(--fs-text-secondary)' }}>Quantified.</span>
           </h1>
 
-          <p style={{ fontSize: 15, color: 'rgba(148,163,184,0.9)', lineHeight: 1.7, marginBottom: 40 }}>
+          <p style={{ fontSize: 15, color: 'var(--fs-text-secondary)', lineHeight: 1.7, marginBottom: 40, borderLeft: '2px solid var(--fs-accent)', paddingLeft: 16 }}>
             Monitor cash positions, FX exposure, working capital, and financial risk
-            across all entities in real time — with the precision of an enterprise treasury system.
+            across all entities in real time — with the precision of an enterprise treasury workstation.
           </p>
-
-          {/* Feature highlights */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {FEATURES.map((f) => (
-              <div key={f.label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{
-                  width: 36,
-                  height: 36,
-                  background: 'rgba(37, 99, 235, 0.1)',
-                  border: '1px solid rgba(37, 99, 235, 0.15)',
-                  borderRadius: 8,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}>
-                  <f.icon size={16} style={{ color: '#60a5fa' }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(241,245,249,0.9)' }}>{f.label}</div>
-                  <div style={{ fontSize: 11, color: 'rgba(148,163,184,0.7)' }}>{f.description}</div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
-        <div style={{ fontSize: 11, color: 'rgba(100,116,139,0.6)' }}>
-          FinSight is a simulation platform. No real financial transactions are executed.
+        <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', fontFamily: 'IBM Plex Mono, monospace' }}>
+          VER 2.1.0-SIMULATION
         </div>
       </div>
 
       {/* Right Panel — Login Form */}
       <div style={{
-        width: 460,
+        width: 520,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '60px 48px',
-        position: 'relative',
-        zIndex: 1,
+        padding: '60px',
+        background: 'var(--fs-bg)',
       }}>
         <div className="fade-in">
-          <div style={{ marginBottom: 36 }}>
-            <h2 style={{ fontSize: 26, fontWeight: 700, color: 'var(--fs-text)', marginBottom: 8 }}>
-              Sign in to FinSight
+          <div style={{ marginBottom: 36, borderBottom: '1px solid var(--fs-border)', paddingBottom: 24 }}>
+            <h2 className="font-display" style={{ fontSize: 28, color: 'var(--fs-text)', marginBottom: 8 }}>
+              Sign In
             </h2>
             <p style={{ fontSize: 14, color: 'var(--fs-text-secondary)' }}>
-              Use your credentials or select a demo role below
+              Enter your credentials to access the treasury terminal
             </p>
           </div>
 
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
+            <div>
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--fs-text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Email Address
+              </label>
               <input
                 id="email"
                 type="email"
@@ -219,11 +157,14 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="username"
                 autoFocus
+                style={{ height: 44 }}
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Password</label>
+            <div>
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--fs-text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Password
+              </label>
               <div style={{ position: 'relative' }}>
                 <input
                   id="password"
@@ -233,14 +174,14 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
-                  style={{ paddingRight: 40 }}
+                  style={{ paddingRight: 40, height: 44 }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   style={{
                     position: 'absolute',
-                    right: 10,
+                    right: 12,
                     top: '50%',
                     transform: 'translateY(-50%)',
                     background: 'none',
@@ -258,9 +199,9 @@ export default function LoginPage() {
             <button
               id="login-btn"
               type="submit"
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary"
               disabled={isLoading}
-              style={{ marginTop: 4 }}
+              style={{ marginTop: 8, height: 44, width: '100%' }}
             >
               {isLoading ? (
                 <>
@@ -274,26 +215,17 @@ export default function LoginPage() {
           </form>
 
           {/* Demo Credentials */}
-          <div style={{ marginTop: 36 }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              marginBottom: 16,
-            }}>
-              <div style={{ flex: 1, height: 1, background: 'var(--fs-border)' }} />
-              <span style={{ fontSize: 11, color: 'var(--fs-text-muted)', fontWeight: 600, whiteSpace: 'nowrap' }}>
-                QUICK DEMO ACCESS
-              </span>
-              <div style={{ flex: 1, height: 1, background: 'var(--fs-border)' }} />
+          <div style={{ marginTop: 48, paddingTop: 24, borderTop: '1px solid var(--fs-border)' }}>
+            <div style={{ fontSize: 11, color: 'var(--fs-text-muted)', fontWeight: 600, letterSpacing: '0.05em', marginBottom: 16 }}>
+              QUICK DEMO ACCESS
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               {DEMO_CREDENTIALS.map((cred) => (
                 <button
                   key={cred.role}
                   onClick={() => fillDemo(cred.email, cred.password)}
-                  className="btn btn-secondary btn-sm"
+                  className="btn btn-secondary"
                   style={{ justifyContent: 'center' }}
                 >
                   {cred.role}
@@ -302,14 +234,12 @@ export default function LoginPage() {
             </div>
 
             <p style={{
-              fontSize: 11,
+              fontSize: 12,
               color: 'var(--fs-text-muted)',
-              marginTop: 12,
-              textAlign: 'center',
+              marginTop: 16,
               lineHeight: 1.5,
             }}>
-              Click a role to fill credentials, then click Sign In.
-              <br />All demo data is pre-seeded with realistic financial records.
+              Select a role to pre-fill credentials. All accounts are provisioned with simulated financial records for demonstration purposes.
             </p>
           </div>
         </div>
